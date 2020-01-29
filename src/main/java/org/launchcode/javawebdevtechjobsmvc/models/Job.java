@@ -3,7 +3,6 @@ package org.launchcode.javawebdevtechjobsmvc.models;
 import java.util.Objects;
 
 public class Job {
-
     private int id;
     private static int nextId = 1;
 
@@ -72,9 +71,7 @@ public class Job {
         return Objects.hash(id);
     }
 
-
     // Getters and setters.
-
     public int getId() {
         return id;
     }

@@ -18,12 +18,11 @@
                 </th:block>
             </tr>
             <tr>
-                <!-- TODO #2: Complete the View Jobs By Category Table. -->
-
-                <td></td> <!-- Feel free to remove or modify this element if necessary. -->
-
-                <td th:each="category : ${tableChoices}">
+                <!-- DONE #2: Complete the View Jobs By Category Table.-->
+                <td th:each="category : ${tableChoices}"> <!--tableChoices is a HashMap from JobData-->
                     <ul>
+                        <!--category represents one key/value pair from the HashMap "tableChoices"-->
+                        <!--item represents one entry from the stored ArrayList "category.value"-->
                         <li th:each="item : ${category.value}">
                             <a th:href="@{/list/jobs(column=${category.key},value=${item})}" th:text="${item}"></a>
                         </li>

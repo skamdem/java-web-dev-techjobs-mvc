@@ -29,19 +29,14 @@ public class JobData {
      * Fetch list of all job objects from loaded data,
      * without duplicates, then return a copy.
      */
-
     public static ArrayList<Job> findAll() {
-
-        // load data, if not already loaded
-        loadData();
-
+        loadData();// load data, if not already loaded
         // Bonus mission; normal version returns allJobs
         return new ArrayList<>(allJobs);
     }
 
     /**
      * Returns the results of searching the Jobs data by field and search term.
-     *
      * For example, searching for employer "Enterprise" will include results
      * with "Enterprise Holdings, Inc".
      *
@@ -50,12 +45,9 @@ public class JobData {
      * @return List of all jobs matching the criteria.
      */
     public static ArrayList<Job> findByColumnAndValue(String column, String value) {
-
-        // load data, if not already loaded
-        loadData();
+        loadData();// load data, if not already loaded
 
         ArrayList<Job> jobs = new ArrayList<>();
-
         if (value.toLowerCase().equals("all")){
             return findAll();
         }
@@ -65,17 +57,17 @@ public class JobData {
             return jobs;
         }
         for (Job job : allJobs) {
-
             String aValue = getFieldValue(job, column);
-
             if (aValue != null && aValue.toLowerCase().contains(value.toLowerCase())) {
                 jobs.add(job);
             }
         }
-
         return jobs;
     }
 
+    /*
+    * Return the string value for the corresponding column in that "job" row
+    */
     public static String getFieldValue(Job job, String fieldName){
         String theValue;
         if (fieldName.equals("name")){
@@ -89,24 +81,18 @@ public class JobData {
         } else {
             theValue = job.getCoreCompetency().toString();
         }
-
         return theValue;
     }
+
     /**
      * Search all Job fields for the given term.
-     *
      * @param value The search term to look for.
-     * @return      List of all jobs with at least one field containing the value.
+     * @return List of all jobs with at least one field containing the value.
      */
     public static ArrayList<Job> findByValue(String value) {
-
-        // load data, if not already loaded
-        loadData();
-
+        loadData();// load data, if not already loaded
         ArrayList<Job> jobs = new ArrayList<>();
-
         for (Job job : allJobs) {
-
             if (job.getName().toLowerCase().contains(value.toLowerCase())) {
                 jobs.add(job);
             } else if (job.getEmployer().toString().toLowerCase().contains(value.toLowerCase())) {
@@ -118,12 +104,13 @@ public class JobData {
             } else if (job.getCoreCompetency().toString().toLowerCase().contains(value.toLowerCase())) {
                 jobs.add(job);
             }
-
         }
-
         return jobs;
     }
 
+    /*
+    * This method checks whether an object exists in the parameter list
+    */
     private static Object findExistingObject(ArrayList list, String value){
         for (Object item : list){
             if (item.toString().toLowerCase().equals(value.toLowerCase())){
@@ -134,17 +121,15 @@ public class JobData {
     }
 
     /**
-     * Read in data from a CSV file and store it in an ArrayList of Job objects.
+     * Read in data from a CSV file and store it in an ArrayList of Job objects called "allJobs".
      */
     private static void loadData() {
-
         // Only load data once
         if (isDataLoaded) {
             return;
         }
 
         try {
-
             // Open the CSV file and set up pull out column header info and records
             Resource resource = new ClassPathResource(DATA_FILE);
             InputStream is = resource.getInputStream();
@@ -157,8 +142,8 @@ public class JobData {
             allJobs = new ArrayList<>();
 
             // Put the records into a more friendly format
+            //records: a spreadsheet file || record: a row of several field
             for (CSVRecord record : records) {
-
                 String aName = record.get(0);
                 String anEmployer = record.get(1);
                 String aLocation = record.get(2);
@@ -189,26 +174,30 @@ public class JobData {
                     newPosition = new PositionType(aPosition);
                     allPositionTypes.add(newPosition);
                 }
-
+                //create a new job object out of the retrieved row and
+                //store it into the list of ALL jobs for our purposes
                 Job newJob = new Job(aName, newEmployer, newLocation, newPosition, newSkill);
-
                 allJobs.add(newJob);
             }
-            // flag the data as loaded, so we don't do it twice
-            isDataLoaded = true;
-
+            isDataLoaded = true;// flag the data as loaded, so we don't do it twice
         } catch (IOException e) {
             System.out.println("Failed to load job data");
             e.printStackTrace();
         }
     }
 
+    /*
+    * return sorted list of Employers
+    */
     public static ArrayList<Employer> getAllEmployers() {
         loadData();
         allEmployers.sort(new NameSorter());
         return allEmployers;
     }
 
+    /*
+     * return sorted list of Locations
+     */
     public static ArrayList<Location> getAllLocations() {
         loadData();
         allLocations.sort(new NameSorter());
@@ -221,11 +210,13 @@ public class JobData {
         return allPositionTypes;
     }
 
+    /*
+     * return sorted list of Core Competencies
+     */
     public static ArrayList<CoreCompetency> getAllCoreCompetency() {
         loadData();
         allCoreCompetency.sort(new NameSorter());
         return allCoreCompetency;
     }
-
 }
 

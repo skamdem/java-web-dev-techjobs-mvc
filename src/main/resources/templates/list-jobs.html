@@ -3,16 +3,36 @@
 <head th:replace="fragments :: head">
 </head>
 <body>
-
 <div th:replace="fragments :: page-header"></div>
-
 <div class="container body-content">
-
     <h1 th:text="${#strings.capitalizeWords(title)}"></h1>
+    <!--
+    Variables names:
+    Model model,
+    String column,
+    String value
+    title, job
 
-    <!-- TODO #1 - Use a loop to display job results in a table. -->
+    name;
+    employer;
+    location;
+    positionType;
+    coreCompetency;
 
+    -->
+    <!-- DONE #1 - Use a loop to display job results in a table. -->
+    <table th:fragment = "listingResults" class="centeredTable job-listing">
+        <tr th:each="field : ${jobs}">
+            <td>
+                <span th:text="'ID: '+ ${field.id}"></span><br>
+                <span th:text="'Name: ' + ${field.name}"></span><br>
+                <span th:text="'Employer: ' + ${field.employer}"></span><br>
+                <span th:text="'Location: ' + ${field.location}"></span><br>
+                <span th:text="'Position Type: ' + ${field.positionType}"></span><br>
+                <span th:text="'Skill: ' + ${field.coreCompetency}"></span>
+            </td>
+        </tr>
+    </table>
 </div>
-
 </body>
 </html>
