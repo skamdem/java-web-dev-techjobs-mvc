@@ -16,17 +16,17 @@ import java.util.HashMap;
  */
 @Controller
 @RequestMapping(value = "list")
-public class ListController {
+public class ListController extends TechJobsController{
 
-    static HashMap<String, String> columnChoices = new HashMap<>();
+//    static HashMap<String, String> columnChoices = new HashMap<>();
     static HashMap<String, Object> tableChoices = new HashMap<>();
 
     public ListController () {
-        columnChoices.put("all", "All");
-        columnChoices.put("employer", "Employer");
-        columnChoices.put("location", "Location");
-        columnChoices.put("positionType", "Position Type");
-        columnChoices.put("coreCompetency", "Skill");
+//        columnChoices.put("all", "All");
+//        columnChoices.put("employer", "Employer");
+//        columnChoices.put("location", "Location");
+//        columnChoices.put("positionType", "Position Type");
+//        columnChoices.put("coreCompetency", "Skill");
 
         tableChoices.put("all", "View All");
         tableChoices.put("employer", JobData.getAllEmployers());
@@ -38,7 +38,7 @@ public class ListController {
     //handler method that renders a view that displays a table of clickable links for the different job categories
     @RequestMapping(value = "")
     public String list(Model model) {
-        model.addAttribute("columns", columnChoices);
+//        model.addAttribute("columns", columnChoices);
         model.addAttribute("tableChoices", tableChoices);
         model.addAttribute("employers", JobData.getAllEmployers());
         model.addAttribute("locations", JobData.getAllLocations());
@@ -58,7 +58,7 @@ public class ListController {
             jobs = JobData.findByColumnAndValue(column, value);
             model.addAttribute("title", "Jobs with " + columnChoices.get(column) + ": " + value);
         }
-        model.addAttribute("jobs", jobs);
+        model.addAttribute("jobs", jobs);//used in search.html
         //model.addAttribute("displayLabels", displayLabels);
         return "list-jobs";
     }

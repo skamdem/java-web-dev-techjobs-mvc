@@ -12,24 +12,27 @@
     String column,
     String value
     title, job
-
-    name;
-    employer;
-    location;
-    positionType;
-    coreCompetency;
-
+th:action="@{/search/results}"
     -->
-    <!-- DONE #1 - Use a loop to display job results in a table. -->
+    <!-- DONE #1 - Use a loop to display job results in a table.
+    Bonus Missions 3: clicking on a location value
+    will generate a new list with all the jobs available in that location
+    -->
     <table th:fragment = "listingResults" class="centeredTable job-listing">
         <tr th:each="field : ${jobs}">
             <td>
                 <span th:text="'ID: '+ ${field.id}"></span><br>
                 <span th:text="'Name: ' + ${field.name}"></span><br>
-                <span th:text="'Employer: ' + ${field.employer}"></span><br>
-                <span th:text="'Location: ' + ${field.location}"></span><br>
-                <span th:text="'Position Type: ' + ${field.positionType}"></span><br>
-                <span th:text="'Skill: ' + ${field.coreCompetency}"></span>
+                <span>Employer: </span><a th:href="@{/list/jobs(column='employer',
+                 value=${field.employer})}"><span th:text="${field.employer}"></span></a><br>
+                <span>Location: </span><a th:href="@{/list/jobs(column='location',
+                 value=${field.location})}"><span th:text="${field.location}"></span></a><br>
+                <span>Position Type: </span><a th:href="@{/list/jobs(column='positionType',
+                 value=${field.positionType})}"><span th:text="${field.positionType}"></span></a><br>
+                <span>Skill: </span><a th:href="@{/list/jobs(column='coreCompetency',
+                 value=${field.coreCompetency})}">
+                    <span th:text="${field.coreCompetency}"></span>
+                </a>
             </td>
         </tr>
     </table>

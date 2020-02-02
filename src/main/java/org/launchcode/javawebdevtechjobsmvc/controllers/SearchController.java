@@ -16,10 +16,14 @@ import static org.launchcode.javawebdevtechjobsmvc.controllers.ListController.co
  */
 @Controller
 @RequestMapping("search")
-public class SearchController {
+public class SearchController extends TechJobsController{
+
     @RequestMapping(value = "")
     public String search(Model model) {
+
+        //used to display the form in search.html
         model.addAttribute("columns", columnChoices);
+
         return "search";
     }
     // DONE #3 - Create a handler to process a search request and render the updated search view.
@@ -32,8 +36,18 @@ public class SearchController {
         } else {
             jobs = JobData.findByColumnAndValue(searchType, searchTerm);
         }
+
+        //used in (list-jobs :: listingResults) in search.html
         model.addAttribute("jobs", jobs);
+
+        //used to display the form in search.html
         model.addAttribute("columns", columnChoices);
+
+        //used to display the form with previous radio button in search.html
+        //Bonus Missions : 1
+        model.addAttribute("searchType", searchType);
+
         return "search";
+        //return "redirect:/search/results";
     }
 }
